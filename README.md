@@ -48,3 +48,19 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Core Technology Stack (Legacy Reference)
+
+Dựa trên nghiên cứu từ `esp32-server-legacy`, dưới đây là các công nghệ và model mặc định được sử dụng để xử lý tương tác âm thanh:
+
+### 1. Audio Input Flow
+*   **Protocol**: WebSocket (Opus/PCM 16kHz).
+*   **VAD (Voice Activity Detection)**: Sử dụng model **Silero VAD** để nhận biết khi nào người dùng bắt đầu và kết thúc nói.
+*   **Buffering**: Dữ liệu được tích lũy trong buffer khi VAD phát hiện có tiếng người, và chỉ gửi đi nhận dạng (ASR) khi người dùng ngừng nói hoàn toàn (Voice Stop).
+*   **ASR Processing**: Giải mã Opus -> PCM -> ASR Engine.
+
+### 2. Default AI Models
+*   **VAD**: `snakers4/silero-vad`
+*   **ASR (STT)**: `FunASR` (Model mặc định: **SenseVoiceSmall**)
+*   **LLM**: `ChatGLM` (Model mặc định: **glm-4-flash**)
+*   **TTS**: `EdgeTTS` (Model mặc định: **zh-CN-XiaoxiaoNeural**)
